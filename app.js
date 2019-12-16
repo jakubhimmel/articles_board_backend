@@ -10,6 +10,8 @@ const cors = require('cors');
 const articlesRouter = require('./routes/articles');
 const commentsRouter = require('./routes/comments')
 const usersRouter = require('./routes/users')
+const topicsRouter = require('./routes/topics')
+
 require('dotenv').config();
 
 const auth = require('./routes/auth');
@@ -74,6 +76,7 @@ app.use('/auth', auth);
 app.use('/articles', articlesRouter);
 app.use('/comments', commentsRouter);
 app.use('/users', usersRouter);
+app.use('/topics', topicsRouter);
 
 
 
