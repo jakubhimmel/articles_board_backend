@@ -4,17 +4,17 @@ const User = require('./../models/user'); // Import of the model Recipe from './
 const Topic = require('./../models/topic'); // Import of the model Recipe from './models/Recipe'
 const router = express.Router();
 
-router.get('/:name', async(req, res, next) => {
-    const { name } = req.params;
+// router.get('/:name', async(req, res, next) => {
+//     const { name } = req.params;
 
-    try {
-        const topicById = await Topic.findOne({ name }).populate('articles')
-        res.status(200).json(topicById)
-    } catch (error) {
-        next(error);
-    }
+//     try {
+//         const topicById = await Topic.findOne({ name }).populate('articles')
+//         res.status(200).json(topicById)
+//     } catch (error) {
+//         next(error);
+//     }
 
-})
+// })
 
 
 

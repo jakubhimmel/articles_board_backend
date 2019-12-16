@@ -79,9 +79,12 @@ router.delete("/:id/delete", async(req, res, next) => {
 
 router.get('/topics/:name', async(req, res, next) => {
 
-    const { name } = req.param
+    const { name } = req.params
+    console.log(req.params);
+
     try {
         const topicByName = await Topic.findOne({ name })
+
         console.log('topicByName', topicByName);
         res.status(200).json(topicByName)
     } catch (error) {
