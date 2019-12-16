@@ -36,7 +36,7 @@ const app = express();
 app.use(
     cors({
         credentials: true,
-        origin: [process.env.PUBLIC_DOMAIN],
+        origin: [process.env.PUBLIC_DOMAIN, 'https://article-board.herokuapp.com'],
     }),
 );
 // app.use((req, res, next) => {
@@ -78,7 +78,11 @@ app.use('/comments', commentsRouter);
 app.use('/users', usersRouter);
 app.use('/topics', topicsRouter);
 
-
+// ROUTE FOR SERVING REACT APP (index.html)
+app.use((req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(__dirname + "/public/index.html");
+});
 
 
 // ERROR HANDLING
