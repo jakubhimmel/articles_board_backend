@@ -74,6 +74,24 @@ router.get("/:id", async(req, res, next) => {
     console.log('THISSSSSSSS', id);
 });
 
+router.get("/by-name/:name", async(req, res, next) => {
+    const { name } = req.params;
+    console.log('name', name);
+
+
+
+    try {
+        const articleByNameResult = await Article.find({ title: { '$regex': name, '$options': 'i' } });
+        console.log('THISSSSSSSS', articleByNameResult);
+        res.status(200).json(articleByNameResult);
+
+    } catch (error) {
+        next(error);
+    }
+
+});
+
+
 router.delete("/:id/delete", async(req, res, next) => {
     const { id } = req.params;
 
