@@ -8,9 +8,18 @@ router.post("/create", async(req, res, next) => {
     // const { title, text } = req.body;
     const article = {
         title: req.body.title,
+        image: req.body.image,
+        description: req.body.description,
         text: req.body.text,
         topic: req.body.topic
     };
+
+    if (article.description === undefined) {
+        article.description = article.text.slice(0, 200)
+    }
+
+    console.log('description', article.description);
+
 
     try {
         const newArticle = await Article.create(article);
@@ -39,26 +48,30 @@ router.post("/create", async(req, res, next) => {
     }
 });
 
-// router.get("/", async(req, res, next) => {
-//     console.log("Current User:", req.session.currentUser);
+router.get("/", async(req, res, next) => {
+    console.log("Current User:", req.session.currentUser);
 
-//     try {
-//         const allArticles = await Article.find();
-//         res.status(200).json(allArticles);
-//     } catch (error) {
-//         next(error);
-//     }
-// });
+    try {
+        const allArticles = await Article.find();
+        res.status(200).json(allArticles);
+    } catch (error) {
+        next(error);
+    }
+});
 
 router.get("/:id", async(req, res, next) => {
     const { id } = req.params;
 
+
     try {
         const articleById = await Article.findById(id);
         res.status(200).json(articleById);
+
     } catch (error) {
         next(error);
     }
+
+    console.log('THISSSSSSSS', id);
 });
 
 router.delete("/:id/delete", async(req, res, next) => {
@@ -83,7 +96,7 @@ router.get('/topics/:name', async(req, res, next) => {
     console.log(req.params);
 
     try {
-        const topicByName = await Topic.findOne({ name })
+        const topicByName = await Topic.findOne({ name }).populate('articles')
 
         console.log('topicByName', topicByName);
         res.status(200).json(topicByName)
