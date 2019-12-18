@@ -60,7 +60,7 @@ router.get("/:id", async(req, res, next) => {
 
 
     try {
-        const articleById = await Article.findById(id);
+        const articleById = await Article.findById(id).populate('comments').populate('owner');
         res.status(200).json(articleById);
 
     } catch (error) {

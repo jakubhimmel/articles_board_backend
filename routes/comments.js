@@ -1,42 +1,30 @@
-const express = require('express');
-const Comment = require('./../models/comment'); // Import of the model Recipe from './models/Recipe'
-const User = require('./../models/user'); // Import of the model Recipe from './models/Recipe'
-const Article = require('./../models/article'); // Import of the model Recipe from './models/Recipe'
+const express = require("express");
+const Comment = require("./../models/comment"); // Import of the model Recipe from './models/Recipe'
+const User = require("./../models/user"); // Import of the model Recipe from './models/Recipe'
+const Article = require("./../models/article"); // Import of the model Recipe from './models/Recipe'
 const router = express.Router();
 
-
-
-router.post('/:articleId/create', async(req, res, next) => {
+router.post("/:articleId/create", async(req, res, next) => {
     const { articleId } = req.params;
 
+
     const comment = {
-        subject: req.body.subject,
+        title: req.body.title,
         text: req.body.text,
-        owner: req.session.currentUser._id
-    }
+        ownerId: req.session.currentUser._id,
+        ownerName: req.session.currentUser.username
+    };
 
     try {
-        const newComment = await Comment.create(comment)
-            // const userId = req.session.currentUser._id
+        const newComment = await Comment.create(comment);
 
-        await Article.findByIdAndUpdate(articleId, { $push: { comments: newComment._id } });
+        await Article.findByIdAndUpdate(articleId, {
+            $push: { comments: newComment._id }
+        });
 
-
-
-
-
-        // console.log("Test :", testComment);
-
-
-        res.status(200).json(newComment)
-
-
-
-
-
+        res.status(200).json(newComment);
     } catch (error) {
         next(error);
     }
-})
-
+});
 module.exports = router;
