@@ -16,7 +16,7 @@ const {
 router.get('/me', isLoggedIn, (req, res, next) => {
     req.session.currentUser.password = '*';
     res.json(req.session.currentUser);
-    console.log(req.session);
+    // console.log(req.session);
 
 });
 

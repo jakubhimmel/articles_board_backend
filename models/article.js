@@ -6,6 +6,7 @@ const articleSchema = new Schema({
     description: String,
     image: String,
     text: String,
+    score: { type: Number, default: 0 },
     topic: {
         type: String,
         enum: [

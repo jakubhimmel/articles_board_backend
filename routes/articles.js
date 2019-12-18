@@ -18,7 +18,6 @@ router.post("/create", async(req, res, next) => {
         article.description = article.text.slice(0, 200)
     }
 
-    console.log('description', article.description);
 
 
     try {
@@ -32,11 +31,9 @@ router.post("/create", async(req, res, next) => {
 
 
         }, { new: true })
-        console.log("New Article:", articleInTopic);
 
 
         const userId = req.session.currentUser._id;
-        console.log("New Article:", newArticle._id);
 
         const updatedUser = await User.findByIdAndUpdate(userId, {
             $push: { articles: newArticle._id }
@@ -49,7 +46,6 @@ router.post("/create", async(req, res, next) => {
 });
 
 router.get("/", async(req, res, next) => {
-    console.log("Current User:", req.session.currentUser);
 
     try {
         const allArticles = await Article.find();
@@ -71,18 +67,15 @@ router.get("/:id", async(req, res, next) => {
         next(error);
     }
 
-    console.log('THISSSSSSSS', id);
 });
 
 router.get("/by-name/:name", async(req, res, next) => {
     const { name } = req.params;
-    console.log('name', name);
 
 
 
     try {
         const articleByNameResult = await Article.find({ title: { '$regex': name, '$options': 'i' } });
-        console.log('THISSSSSSSS', articleByNameResult);
         res.status(200).json(articleByNameResult);
 
     } catch (error) {
@@ -111,17 +104,31 @@ router.delete("/:id/delete", async(req, res, next) => {
 router.get('/topics/:name', async(req, res, next) => {
 
     const { name } = req.params
-    console.log(req.params);
 
     try {
         const topicByName = await Topic.findOne({ name }).populate('articles')
 
-        console.log('topicByName', topicByName);
         res.status(200).json(topicByName)
     } catch (error) {
         next(error);
     }
 
+})
+
+router.put('/:id/vote', async(req, res, next) => {
+    const { id } = req.params
+    const { newScore } = req.body
+
+
+    try {
+        const scoreUpdate = await Article.findByIdAndUpdate(id, { score: newScore }, { new: true });
+        res.status(200).json(scoreUpdate)
+        console.log('\n\nid >>>\n', scoreUpdate);
+
+    } catch (error) {
+        next(error);
+
+    }
 })
 
 
