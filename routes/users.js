@@ -34,4 +34,20 @@ router.post('/:id/settings', isLoggedIn, async(req, res, next) => {
 })
 
 
+router.get('/', isLoggedIn, async(req, res, next) => {
+    console.log(req.session.currentUser);
+
+    const { _id } = req.session.currentUser
+
+    try {
+        // const userId = req.session.currentUser._id
+
+        const user = await User.findById(_id).populate('articles')
+        res.status(200).json(user)
+    } catch (error) {
+        next(error);
+    }
+
+})
+
 module.exports = router;

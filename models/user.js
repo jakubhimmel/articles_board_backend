@@ -8,8 +8,8 @@ const userSchema = new Schema({
     password: String,
     following: [],
     favorite: [],
-    articles: [{ type: Schema.Types.ObjectId, ref: 'article' }],
-    comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }]
+    articles: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
 }, {
     timestamps: {
         createdAt: 'created_at',

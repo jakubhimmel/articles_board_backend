@@ -121,7 +121,7 @@ router.put('/:id/vote', async(req, res, next) => {
 
 
     try {
-        const scoreUpdate = await Article.findByIdAndUpdate(id, { score: newScore }, { new: true });
+        const scoreUpdate = await Article.findByIdAndUpdate(id, { score: newScore }, { new: true }).populate('comments');
         res.status(200).json(scoreUpdate)
         console.log('\n\nid >>>\n', scoreUpdate);
 

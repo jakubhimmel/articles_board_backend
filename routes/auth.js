@@ -56,7 +56,7 @@ router.post(
     async(req, res, next) => {
         const { username, password, email } = req.body;
         try {
-            const user = await User.findOne({ username, email });
+            const user = await User.findOne({ username, email }).populate('articles');
             if (!user) {
                 next(createError(404));
             } else if (bcrypt.compareSync(password, user.password)) {
