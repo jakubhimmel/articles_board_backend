@@ -18,6 +18,8 @@ router.get('/me', isLoggedIn, (req, res, next) => {
     res.json(req.session.currentUser);
     // console.log(req.session);
 
+
+
 });
 
 //  POST    '/signup'

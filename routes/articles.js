@@ -76,6 +76,10 @@ router.get("/by-name/:name", async(req, res, next) => {
 
     try {
         const articleByNameResult = await Article.find({ title: { '$regex': name, '$options': 'i' } });
+        
+        console.log('article bz name', articleByNameResult);
+        
+        
         res.status(200).json(articleByNameResult);
 
     } catch (error) {
@@ -87,6 +91,7 @@ router.get("/by-name/:name", async(req, res, next) => {
 
 router.delete("/:id/delete", async(req, res, next) => {
     const { id } = req.params;
+    
 
     try {
         const userId = req.session.currentUser._id;
@@ -107,6 +112,8 @@ router.get('/topics/:name', async(req, res, next) => {
 
     try {
         const topicByName = await Topic.findOne({ name }).populate('articles')
+
+        
 
         res.status(200).json(topicByName)
     } catch (error) {

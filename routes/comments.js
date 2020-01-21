@@ -27,4 +27,24 @@ router.post("/:articleId/create", async(req, res, next) => {
         next(error);
     }
 });
+
+router.put("/:articleId/delete", async(req,res,next) => {
+    const { articleId } = req.params;
+
+    try {
+        const userId = req.session.currentUser._id;
+        const commentById = await Comment.findByIdAndDelete(articleId);
+        const updatedUser = await User.findByIdAndUpdate(
+            userId, { $pull: { comments: id } }, { new: true }
+        );
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+)
+
 module.exports = router;
